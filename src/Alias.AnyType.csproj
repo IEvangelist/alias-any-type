@@ -10,6 +10,7 @@
   <ItemGroup>
     <Using Include="System.Console" Static="true" />
 
+    <Using Include="System.Diagnostics" />
     <Using Include="System.Net.Http.Json" />
     <Using Include="System.Runtime.CompilerServices" />
     <Using Include="System.Text" />

@@ -1,14 +1,4 @@
-﻿using Signal signal = new();
-
-// Change this delay to see different UFOs sighting intervals.
-const int UfoSightingInterval = 7_500;
-
-OutputEncoding = Encoding.UTF8;
-CancelKeyPress += (sender, e) =>
-{
-    signal.Cancel();
-    e.Cancel = true; // Prevent the app from closing immediately
-};
+﻿using Signal signal = GetCancellationSignal();
 
 WriteIntroduction();
 

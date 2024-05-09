@@ -1,9 +1,27 @@
 ﻿internal static partial class Program
 {
-    static readonly double s_radiansOverDegrees = PI / 180.0;
-    
     const double MetersInMile = 1_609.344;
     const double R = 6_376_500;
+
+    static readonly double s_radiansOverDegrees = PI / 180.0;
+
+    // Change this delay to see different UFOs sighting intervals.
+    static int UfoSightingInterval => Random.Shared.Next(5_000, 12_500);
+    static long LastTimestamp = Stopwatch.GetTimestamp();
+
+    static Signal GetCancellationSignal()
+    {
+        Signal signal = new();
+
+        OutputEncoding = Encoding.UTF8;
+        CancelKeyPress += (sender, e) =>
+        {
+            signal.Cancel();
+            e.Cancel = true; // Prevent the app from closing immediately
+        };
+
+        return signal;
+    }
 
     static Coordinates GetRandomCoordinates(Random? random = default)
     {
@@ -110,18 +128,32 @@
 
     static void WriteUfoTravelAlertDetails(Coordinates coordinates, Coordinates? lastObservedCoordinates)
     {
-        if (lastObservedCoordinates is { } previousCoordinates)
+        try
         {
-            var (_, Kilometers, Miles) = CalculateHaversineDistance(
-                    previousCoordinates, coordinates);
+            if (lastObservedCoordinates is { } previousCoordinates)
+            {
+                var (Meters, Kilometers, Miles) = CalculateHaversineDistance(
+                        previousCoordinates, coordinates);
 
-            WriteLine($"""
-                ⚠️ [ALERT] UFO has travelled over {Miles:#,#} mi ({Kilometers:#,#} km) 
-                🚀 That's one fast alien! 👽
+                var elapsed = Stopwatch.GetElapsedTime(LastTimestamp);
 
-                """);
-            WriteHyphens();
+                var milesPerHour = (int)(Miles / elapsed.TotalHours);
+                var kilometersPerHour = (int)(Kilometers / elapsed.TotalHours);
+
+                WriteLine($"""
+                    ⚠️ [ALERT] UFO has travelled over {Miles:#,#} mi ({Kilometers:#,#} km)
+                    ⌚ It's been {elapsed:s\.fff} seconds since our last sighting.
+                    🚀 That's one fast alien!
+                    👽 Travelling at {milesPerHour:#,#}mph ({kilometersPerHour:#,#}kph).
+
+                    """);
+                WriteHyphens();
+            }
         }
+        finally
+        {
+            LastTimestamp = Stopwatch.GetTimestamp();
+        }        
     }
 
     static void WriteHyphens() => WriteLine($"{new string('-', WindowWidth)}\n");
