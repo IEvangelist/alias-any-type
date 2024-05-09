@@ -144,7 +144,7 @@
                     ⚠️ [ALERT] UFO has travelled over {Miles:#,#} mi ({Kilometers:#,#} km)
                     ⌚ It's been {elapsed:s\.fff} seconds since our last sighting.
                     🚀 That's one fast alien!
-                    👽 Travelling at {milesPerHour:#,#}mph ({kilometersPerHour:#,#}kph).
+                    👽 Travelling at {milesPerHour:#,#} mph ({kilometersPerHour:#,#} kph).
 
                     """);
                 WriteHyphens();
