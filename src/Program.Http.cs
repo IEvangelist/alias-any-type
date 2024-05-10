@@ -7,6 +7,8 @@
 
     readonly static JsonSerializerOptions s_options = new(JsonSerializerDefaults.Web);
 
+    // For example, Microsoft Campus has the following coordinates:
+    //   https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=47.6370&longitude=-122.1240
     static Task<GeoCode?> GetGeocodeAsync(Coordinates coordinates, CancellationToken token) =>
         s_client.GetFromJsonAsync<GeoCode>(
             requestUri: $"?latitude={coordinates.Latitude}&longitude={coordinates.Longitude}", 
