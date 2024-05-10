@@ -29,7 +29,9 @@
 
             token.ThrowIfCancellationRequested();
 
-            yield return (coordinates, geoCode);
+            yield return new CoordinateGeoCodePair(
+                Coordinates: coordinates, 
+                GeoCode: geoCode);
         }
         while (!token.IsCancellationRequested);
     }
