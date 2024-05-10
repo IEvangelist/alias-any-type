@@ -17,7 +17,7 @@ try
         // Write UFO coordinate details to the console.
         WriteUfoCoordinateDetails(coordinates, cardinalizedCoordinates, geoCode);
 
-        // Write travel alert, including distance travelled.
+        // Write travel alert, including distance traveled.
         WriteUfoTravelAlertDetails(coordinates, lastObservedCoordinates);
 
         await Task.Delay(UfoSightingInterval, signal.Token);
