@@ -25,7 +25,8 @@ try
         lastObservedCoordinates = coordinates;
     }
 }
-catch (Exception ex)
+catch (Exception ex) when (Debugger.IsAttached)
 {
     _ = ex;
+    Debugger.Break();
 }
