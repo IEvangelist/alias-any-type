@@ -14,9 +14,11 @@
             cancellationToken: token);
 
     static async CoordinateStream GetCoordinateStreamAsync(
-        [EnumeratorCancellation] CancellationToken token)
+        [AsyncCancelable] CancellationToken token)
     {
-        while (!token.IsCancellationRequested)
+        token.ThrowIfCancellationRequested();
+
+        do
         {
             var coordinates = GetRandomCoordinates();
 
@@ -29,5 +31,6 @@
 
             yield return (coordinates, geoCode);
         }
+        while (!token.IsCancellationRequested);
     }
 }
